@@ -17,41 +17,58 @@ class HashMap {
     }
 
     set(key, value) {
-    const index = this.hash(key)
-    if (index < 0 || index >= this.buckets.length) {
-      throw new Error("Trying to access index out of bounds")
+        const index = this.hash(key)
+        if (index < 0 || index >= this.buckets.length) {
+            throw new Error("Trying to access index out of bounds")
+        }
+
+        const bucket = this.buckets[index]
+        for (const pair of bucket) {
+            if (pair[0] === key) {
+                pair[1] = value
+                return
+            }
+        }
+
+        bucket.push([key, value])
+        this.size++
     }
 
-    const bucket = this.buckets[index]
-    for (const pair of bucket) {
-      if (pair[0] === key) {
-        pair[1] = value
-        return
-      }
+    get(key) {
+        const index = this.hash(key)
+        if (index < 0 || index >= this.buckets.length) {
+            throw new Error("Trying to access index out of bounds")
+        }
+
+        const bucket = this.buckets[index]
+        for (const [k, v] of bucket) {
+            if (k === key) {
+                return v
+            }
+        }
+
+        return null
     }
 
-    bucket.push([key, value])
-    this.size++
-  }
-
-  get(key) {
-    const index = this.hash(key)
-    if (index < 0 || index >= this.buckets.length) {
-      throw new Error("Trying to access index out of bounds")
+    has(key) {
+        return this.get(key) !== null
     }
 
-    const bucket = this.buckets[index]
-    for (const [k, v] of bucket) {
-      if (k === key) {
-        return v
-      }
+    remove(key) {
+        const index = this.hash(key)
+        if (index < 0 || index >= this.buckets.length) {
+            throw new Error("Trying to access index out of bounds")
+        }
+
+        const bucket = this.buckets[index]
+        const indexInBucket = bucket.findIndex(([k]) => k === key)
+        if (indexInBucket !== -1) {
+            bucket.splice(indexInBucket, 1)
+            this.size--
+            return true
+        }
+        return false
     }
 
-    return null
-  }
-
-  has(key) {
-    return this.get(key) !== null
-  }
 }
 
