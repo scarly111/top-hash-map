@@ -33,5 +33,25 @@ class HashMap {
     bucket.push([key, value])
     this.size++
   }
+
+  get(key) {
+    const index = this.hash(key)
+    if (index < 0 || index >= this.buckets.length) {
+      throw new Error("Trying to access index out of bounds")
+    }
+
+    const bucket = this.buckets[index]
+    for (const [k, v] of bucket) {
+      if (k === key) {
+        return v
+      }
+    }
+
+    return null
+  }
+
+  has(key) {
+    return this.get(key) !== null
+  }
 }
 
