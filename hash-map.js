@@ -15,5 +15,23 @@ class HashMap {
         }
         return hashCode
     }
+
+    set(key, value) {
+    const index = this._hash(key)
+    if (index < 0 || index >= this.buckets.length) {
+      throw new Error("Trying to access index out of bounds")
+    }
+
+    const bucket = this.buckets[index]
+    for (const pair of bucket) {
+      if (pair[0] === key) {
+        pair[1] = value
+        return
+      }
+    }
+
+    bucket.push([key, value])
+    this.size++
+  }
 }
 
