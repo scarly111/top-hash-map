@@ -17,7 +17,7 @@ class HashMap {
     }
 
     set(key, value) {
-    const index = this._hash(key)
+    const index = this.hash(key)
     if (index < 0 || index >= this.buckets.length) {
       throw new Error("Trying to access index out of bounds")
     }
