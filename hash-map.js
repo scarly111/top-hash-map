@@ -79,5 +79,15 @@ class HashMap {
         this.size = 0
     }
 
+    keys() {
+        const keys = []
+        for (const bucket of this.buckets) {
+            for (const [key] of bucket) {
+                keys.push(key)
+            }
+        }
+        return keys;
+    }
+
 }
 
